@@ -4,8 +4,8 @@ SAMPLES = f1.read().splitlines()
 f1.close()
 rule all:
 	input:
-		expand([config["phiXout"]+"/{sample}_trimmed_renamed_cropped_1_kneaddata_paired_1.fastq.gz",
-		config["phiXout"]+"/{sample}_trimmed_renamed_cropped_1_kneaddata_paired_2.fastq.gz"],sample=SAMPLES)
+		expand([config["phiXout"]+"/{sample}_trimmed_clean_paired_1.fastq.gz",
+		config["phiXout"]+"/{sample}_trimmed_clean_paired_2.fastq.gz"],sample=SAMPLES)
 rule trim_galore:
 	input:
 		rawread1=config["raw_read_dir"]+"/{sample}_R1_001.fastq.gz",

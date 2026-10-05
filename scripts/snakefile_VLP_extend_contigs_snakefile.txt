@@ -7,9 +7,8 @@ rule all:
 		expand([config["assemby_dir"]+"/COBRA/{sample}_clean_VLP_contigs_new.fa"],sample=SAMPLES)
 rule assembly:
 	input:
-		pair1=config["clean_reads"]+"/{sample}_trimmed_clean_noQ33_controlrm_paired_1.fastq.gz",
-		pair2=config["clean_reads"]+"/{sample}_trimmed_clean_noQ33_controlrm_paired_2.fastq.gz",
-		unmatched=config["clean_reads"]+"/{sample}_trimmed_clean_noQ33_controlrm_unmatched.fastq.gz"
+		pair1=config["clean_reads"]+"/{sample}_trimmed_clean_paired_1.fastq.gz",
+		pair2=config["clean_reads"]+"/{sample}_trimmed_clean_paired_2.fastq.gz"
 	params:
 		outdir=config["assemby_dir"],
 		samp=temp("{sample}")
@@ -23,15 +22,14 @@ rule assembly:
 		disk_mb=10000
 	shell:
 		"""
-		megahit -1 {input.pair1} -2 {input.pair2} -r {input.unmatched} -o {params.outdir}/{params.samp}
+		megahit -1 {input.pair1} -2 {input.pair2} -o {params.outdir}/{params.samp}
 		mv {params.outdir}/{params.samp}/final.contigs.fa {params.outdir}/{params.samp}_clean_VLP_contigs.fa
 		"""
 rule indexing_mapping:
 	input:
 		contigs=config["assemby_dir"]+"/{sample}_clean_VLP_contigs.fa",
-		pair1=config["clean_reads"]+"/{sample}_trimmed_clean_noQ33_controlrm_paired_1.fastq.gz",
-		pair2=config["clean_reads"]+"/{sample}_trimmed_clean_noQ33_controlrm_paired_2.fastq.gz",
-		unmatched=config["clean_reads"]+"/{sample}_trimmed_clean_noQ33_controlrm_unmatched.fastq.gz"
+		pair1=config["clean_reads"]+"/{sample}_trimmed_clean_paired_1.fastq.gz",
+		pair2=config["clean_reads"]+"/{sample}_trimmed_clean_paired_2.fastq.gz"
 	params:
 		outdir=config["assemby_dir"],
 		samp=temp("{sample}")
@@ -46,7 +44,7 @@ rule indexing_mapping:
 	shell:
 		"""
 		bowtie2-build {input.contigs} {params.outdir}/{params.samp}_clean_VLP_contigs
-		bowtie2 -p {threads} -x {params.outdir}/{params.samp}_clean_VLP_contigs -U {input.pair1},{input.pair2},{input.unmatched} -S {params.outdir}/{params.samp}_clean_VLP_assembly_aligned.sam
+		bowtie2 -p {threads} -x {params.outdir}/{params.samp}_clean_VLP_contigs -1 {input.pair1} -2 {input.pair2} -S {params.outdir}/{params.samp}_clean_VLP_assembly_aligned.sam
 		samtools sort -@ {threads} {params.outdir}/{params.samp}_clean_VLP_assembly_aligned.sam -o {params.outdir}/{params.samp}_clean_VLP_assembly_aligned_sorted.bam
 		rm {params.outdir}/{params.samp}_clean_VLP_assembly_aligned.sam
 		rm {params.outdir}/*.bt2

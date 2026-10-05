@@ -1,6 +1,6 @@
-trim_out_path: /scratch/project_2006887/kimkreuz/00.1_fastq/trim_galore_out
-raw_read_dir: /scratch/project_2006887/kimkreuz/00.1_fastq/raw_reads
+trim_out_path: /scratch/project_2006887/kimkreuz/00.1_reads/trim_galore_out
+raw_read_dir: /scratch/project_2006887/kimkreuz/00.1_reads/raw_reads
 sample_file: /scratch/project_2006887/kimkreuz/allsamples.txt #prefixes of the fastq files, one per line
 QCapptainer: /projappl/project_2009323/VLP_read_qc.sif #apptainer container with all the tools needed for QC
-kneaddata_out: /scratch/project_2006887/kimkreuz/00.1_fastq/kneaddata_human_decontam
-phiXout: /scratch/project_2006887/kimkreuz/00.1_fastq/human-phiX_decontam
+kneaddata_out: /scratch/project_2006887/kimkreuz/00.1_reads/kneaddata_human_decontam
+phiXout: /scratch/project_2006887/kimkreuz/00.1_reads/human-phiX_decontam
