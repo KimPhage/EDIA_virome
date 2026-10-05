@@ -1,0 +1,54 @@
+configfile: "config_vOTUs.yaml"
+f1 = open(config["sample_file"],"r")
+SAMPLES = f1.read().splitlines()
+f1.close()
+rule all:
+	input:
+		expand([config["gN_CV_outdir_path"]+"/checkV1/{sample}/complete_genomes.tsv",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/completeness.tsv",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/quality_summary.tsv",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/contamination.tsv",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/proviruses.fna",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/viruses.fna"],sample=SAMPLES)
+
+rule geNomad_run:
+	input:
+		contigs=config["COBRA_outdir_path"]+"/{sample}_VLP_wQ33_contigs.new.3k.dedup.fa"
+	params:
+		gNCV=config["gN_CV_outdir_path"], #remove this if script does not run
+		gNdb=config["gNdb_path"],
+		NGS=temp("{sample}")
+	singularity:
+		config["gNapp_path"]
+	output:
+		config["gNOutDir_path"]+"/GeNomad1/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus_summary.tsv" 
+	threads: 20
+	resources:
+		mem_mb=50000
+	shell:
+		"""
+		genomad end-to-end -t {threads} {input.contigs} {params.gNCV}/GeNomad1/{params.NGS} {params.gNdb} 
+		"""
+
+rule CheckV_run:
+	input:
+		contigs=config["gNOutDir_path"]+"/GeNomad1/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus.fna"
+	params: 
+		gNCV=config["gN_CV_outdir_path"], #remove if does not work
+		NGS=temp("{sample}")
+	singularity: 
+		config["checkv_apptainer"] 
+	output:
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/complete_genomes.tsv",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/completeness.tsv",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/quality_summary.tsv",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/contamination.tsv",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/proviruses.fna",
+		config["gN_CV_outdir_path"]+"/checkV1/{sample}/viruses.fna"
+	threads: 20
+	resources:
+		mem_mb=50000
+	shell:
+		"""
+		checkv end_to_end {input.contigs} {params.gNCV}/checkV1/{params.NGS} -t {threads}
+		"""
