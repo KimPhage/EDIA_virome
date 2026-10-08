@@ -1,0 +1,5 @@
+clean_reads: /scratch/project_2006887/kimkreuz/00.1_reads/human-phiX_decontam/ # path to the directory containing the clean reads after QC and decontamination
+assemby_dir: /scratch/project_2006887/kimkreuz/01_contigs/raw-assemblies # path for assembly, mapping, and coverage outputs
+cobra_dir: /scratch/project_2006887/kimkreuz/01_contigs/COBRA # path for final Cobra contigs
+extendApptainer: /projappl/project_2009323/contig_extension.sif #apptainer container with all the tools needed for assembly and contig extension
+sample_file: /scratch/project_2006887/kimkreuz/allsamples.txt #prefixes of the fastq files, one per line
