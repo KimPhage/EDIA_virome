@@ -4,51 +4,52 @@ SAMPLES = f1.read().splitlines()
 f1.close()
 rule all:
 	input:
-		expand([config["gN_CV_outdir_path"]+"/checkV1/{sample}/complete_genomes.tsv",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/completeness.tsv",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/quality_summary.tsv",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/contamination.tsv",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/proviruses.fna",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/viruses.fna"],sample=SAMPLES)
+		expand([config["CVOutDir_path"]+"/{sample}/complete_genomes.tsv",
+		config["CVOutDir_path"]+"/{sample}/completeness.tsv",
+		config["CVOutDir_path"]+"/{sample}/quality_summary.tsv",
+		config["CVOutDir_path"]+"/{sample}/contamination.tsv",
+		config["CVOutDir_path"]+"/{sample}/proviruses.fna",
+		config["CVOutDir_path"]+"/{sample}/viruses.fna"],sample=SAMPLES)
 
 rule geNomad_run:
 	input:
 		contigs=config["COBRA_outdir_path"]+"/{sample}_VLP_wQ33_contigs.new.3k.dedup.fa"
 	params:
-		gNCV=config["gN_CV_outdir_path"], #remove this if script does not run
+		outdir=config["gNOutDir_path"],
 		gNdb=config["gNdb_path"],
 		NGS=temp("{sample}")
 	singularity:
 		config["gNapp_path"]
 	output:
-		config["gNOutDir_path"]+"/GeNomad1/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus_summary.tsv" 
+		config["gNOutDir_path"]+"/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus_summary.tsv",
+		config["gNOutDir_path"]+"/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus.fna"
 	threads: 20
 	resources:
 		mem_mb=50000
 	shell:
 		"""
-		genomad end-to-end -t {threads} {input.contigs} {params.gNCV}/GeNomad1/{params.NGS} {params.gNdb} 
+		genomad end-to-end -t {threads} {input.contigs} {params.outdir}/{params.NGS} {params.gNdb}
 		"""
 
 rule CheckV_run:
 	input:
-		contigs=config["gNOutDir_path"]+"/GeNomad1/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus.fna"
+		contigs=config["gNOutDir_path"]+"/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus.fna"
 	params: 
-		gNCV=config["gN_CV_outdir_path"], #remove if does not work
+		outdir=config["CVOutDir_path"],
 		NGS=temp("{sample}")
 	singularity: 
 		config["checkv_apptainer"] 
 	output:
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/complete_genomes.tsv",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/completeness.tsv",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/quality_summary.tsv",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/contamination.tsv",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/proviruses.fna",
-		config["gN_CV_outdir_path"]+"/checkV1/{sample}/viruses.fna"
+		config["CVOutDir_path"]+"/{sample}/complete_genomes.tsv",
+		config["CVOutDir_path"]+"/{sample}/completeness.tsv",
+		config["CVOutDir_path"]+"/{sample}/quality_summary.tsv",
+		config["CVOutDir_path"]+"/{sample}/contamination.tsv",
+		config["CVOutDir_path"]+"/{sample}/proviruses.fna",
+		config["CVOutDir_path"]+"/{sample}/viruses.fna"
 	threads: 20
 	resources:
 		mem_mb=50000
 	shell:
 		"""
-		checkv end_to_end {input.contigs} {params.gNCV}/checkV1/{params.NGS} -t {threads}
+		checkv end_to_end {input.contigs} {params.outdir}/{params.NGS} -t {threads}
 		"""

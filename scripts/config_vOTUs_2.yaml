@@ -1,0 +1,6 @@
+sample_file: /scratch/project_2006887/kimkreuz/allsamples.txt # sample prefixes, one per line
+CheckVOut_dir: /scratch/project_2006887/kimkreuz/01_contigs/CheckV1
+gNOutDir_path: /scratch/project_2006887/kimkreuz/01_contigs/GeNomad2
+gNdb_path: /path/to/genomad_database
+GNomad_apptainer: /path/to/genomad.sif
+checkv_apptainer: /path/to/checkv.sif

@@ -1,0 +1,8 @@
+sample_file: /scratch/project_2006887/kimkreuz/allsamples.txt # sample prefixes, one per line
+COBRA_outdir_path: /scratch/project_2006887/kimkreuz/01_contigs/COBRA
+gN_CV_outdir_path: /scratch/project_2006887/kimkreuz/01_contigs/
+gNOutDir_path: /scratch/project_2006887/kimkreuz/01_contigs/GeNomad1
+CVOutDir_path: /scratch/project_2006887/kimkreuz/01_contigs/CheckV1
+gNdb_path: /scratch/project_2006887/kimkreuz/allsamples.txt #path to genomad database
+gNapp_path: /path/to/genomad.sif
+checkv_apptainer: /path/to/checkv.sif
