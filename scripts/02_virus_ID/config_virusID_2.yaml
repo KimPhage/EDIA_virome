@@ -1,0 +1,7 @@
+sample_file: /scratch/project_2006887/kimkreuz/allsamples.txt # sample prefixes, one per line
+CheckVOut_dir: /scratch/project_2006887/kimkreuz/01_contigs/CheckV1 #path to directory containing output from first checkv run
+gNOutDir_path: /scratch/project_2006887/kimkreuz/01_contigs/GeNomad2 #path to directory containing output from second genomad run
+CheckVOut_dir_2: /scratch/project_2006887/kimkreuz/01_contigs/CheckV2 #path to directory containing output from second checkv run
+gNdb_path: /path/to/genomad_database #path to genomad database
+GNomad_apptainer: /path/to/genomad.sif #path to genomad apptainer image
+checkv_apptainer: /path/to/checkv.sif #path to checkv apptainer image

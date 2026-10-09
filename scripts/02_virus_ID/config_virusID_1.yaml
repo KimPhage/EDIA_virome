@@ -1,0 +1,7 @@
+sample_file: /scratch/project_2006887/kimkreuz/allsamples.txt # sample prefixes, one per line
+contig_path: /scratch/project_2006887/kimkreuz/01_contigs/COBRA #path to directory containing assebled contigs to check for viruses
+gNOutDir_path: /scratch/project_2006887/kimkreuz/01_contigs/GeNomad1 #path to directory containing output from GeNomad
+CVOutDir_path: /scratch/project_2006887/kimkreuz/01_contigs/CheckV1 #path to directory containing output from CheckV
+gNdb_path: /scratch/project_2006887/kimkreuz/allsamples.txt #path to genomad database
+gNapp_path: /path/to/genomad.sif #path to genomad apptainer image
+checkv_apptainer: /path/to/checkv.sif #path to checkv apptainer image

@@ -1,0 +1,6 @@
+trim_out_path: /scratch/project_2006887/kimkreuz/00.1_reads/trim_galore_out #path to directory containing output from trim_galore
+raw_read_dir: /scratch/project_2006887/kimkreuz/00.1_reads/raw_reads #path to directory containing raw reads of all samples
+sample_file: /scratch/project_2006887/kimkreuz/allsamples.txt #prefixes of the fastq files, one per line
+QCapptainer: /projappl/project_2009323/VLP_read_qc.sif #apptainer container with all the tools needed for QC
+kneaddata_out: /scratch/project_2006887/kimkreuz/00.1_reads/kneaddata_human_decontam #path to directory containing output from kneaddata
+phiXout: /scratch/project_2006887/kimkreuz/00.1_reads/human-phiX_decontam #path to directory containing output from kneaddata after decontamination of human and phiX reads

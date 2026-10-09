@@ -1,4 +1,4 @@
-configfile: "config_vOTUs.yaml"
+configfile: "config_virusID_1.yaml"
 f1 = open(config["sample_file"],"r")
 SAMPLES = f1.read().splitlines()
 f1.close()
@@ -13,7 +13,7 @@ rule all:
 
 rule geNomad_run:
 	input:
-		contigs=config["COBRA_outdir_path"]+"/{sample}_VLP_wQ33_contigs.new.3k.dedup.fa"
+		contigs=config["contig_path"]+"/{sample}_VLP_wQ33_contigs.new.3k.dedup.fa"
 	params:
 		outdir=config["gNOutDir_path"],
 		gNdb=config["gNdb_path"],
