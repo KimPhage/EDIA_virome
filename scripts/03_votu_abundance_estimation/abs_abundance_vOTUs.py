@@ -22,8 +22,7 @@ if row.empty:
 values = row.iloc[0, 1:].astype(float)
 
 # ---- SAFE DIVISION + CEIL ----
-# Calculate the total VLP genome copies per sample by using the Q33 spike-in as a reference. 
-# There were 220,000 genome copies per sample divided by the relative abundance of Q33 in each sample. 
+# Calculate the total VLP genome copies per sample by using the Q33 spike-in as a reference. There were 220,000 PFU of Q33 per sample.
 scaled = np.where(values > 0, np.ceil(220000 / values), 0) 
 
 # ---- BUILD OUTPUT ----
@@ -37,5 +36,5 @@ output_df.to_csv(output_file, sep="\t", index=False)
 
 print("Done! Output written to:", output_file)
 
-# To calculate VLP copies per gram, each sample must take into account the fecal filtrate volume used (0.4 ml) 
+# To calculate VLP copies per gram faeces, each sample must take into account the fecal filtrate volume used (0.4 ml) 
 # and the amount of fecal material used to make the filtrate (0.1 g).

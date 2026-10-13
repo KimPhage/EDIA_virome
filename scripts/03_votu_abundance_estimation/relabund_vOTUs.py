@@ -5,7 +5,7 @@ import pandas as pd
 # ---- INPUT / OUTPUT ----
 # Input must be the merged rpkm coverage table for each vOTU in each sample. Prior to this point,
 # the vOTUs with rpkm of 0 in all samples should have been removed and vOTUs that were present in any 
-# of the negative controls should be excluded as they are likely contaminants. 
+# of the negative controls should be excluded as they are likely contaminants.
 # The output will be a table of relative abundances for each vOTU in each sample.
 
 input_file = "rmzeroes_merged_coverage_rpkm.tsv"
