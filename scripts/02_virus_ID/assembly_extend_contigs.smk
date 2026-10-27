@@ -4,7 +4,7 @@ SAMPLES = f1.read().splitlines()
 f1.close()
 rule all:
 	input:
-		expand([config["cobra_dir"]+"/{sample}_clean_VLP_contigs_new.fa"],sample=SAMPLES)
+		expand(config["cobra_dir"]+"/{sample}",sample=SAMPLES)
 rule assembly:
 	input:
 		pair1=config["clean_reads"]+"/{sample}_trimmed_clean_paired_1.fastq.gz",
@@ -79,7 +79,7 @@ rule cobra:
 	singularity:
 		config["extendApptainer"]
 	output:
-		config["cobra_dir"]+"/{sample}_clean_VLP_contigs_new.fa"
+		directory(config["cobra_dir"]+"/{sample}")
 	threads: 20
 	resources:
 		mem_mb=4000*4,
@@ -87,5 +87,5 @@ rule cobra:
 	shell:
 		"""
 		cut -f 1,3 {input.coverage} | sed 1d > {params.outdir}/{params.samp}_clean_VLP_assembly_coverage_trunc.txt
-		cobra-meta -f {input.contigs} -q {input.contigs} -o {params.cobra_outdir} -c {params.outdir}/{params.samp}_clean_VLP_assembly_coverage_trunc.txt -m {input.bam} -a megahit -mink 21 -maxk 141
+		cobra-meta -f {input.contigs} -q {input.contigs} -o {params.cobra_outdir}/{params.samp} -c {params.outdir}/{params.samp}_clean_VLP_assembly_coverage_trunc.txt -m {input.bam} -a megahit -mink 21 -maxk 141
 		"""

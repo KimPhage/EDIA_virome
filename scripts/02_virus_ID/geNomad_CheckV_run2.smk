@@ -13,7 +13,7 @@ rule all:
 
 rule geNomad_run:
 	input:
-		contigs=config["CheckVOut_dir"]+"/{sample}/{sample}_Viruses_CheckV_Output/proviruses.fna"
+		contigs=config["CheckVOut_dir"]+"/{sample}/proviruses.fna"
 	params:
 		gNOutDir=config["gNOutDir_path"], #remove this if script does not run
 		gNdb=config["gNdb_path"],
@@ -34,7 +34,7 @@ rule CheckV_run:
 	input:
 		config["gNOutDir_path"]+"/{sample}.checkV_proviruses/proviruses_summary/proviruses_virus.fna"
 	params: 
-		CVOut=config["CheckVOut_dir_2"], #remove if does not work
+		CVOut=config["CheckVOut_dir_2"],
 		NGS=temp("{sample}")
 	singularity: 
 		config["checkv_apptainer"] 

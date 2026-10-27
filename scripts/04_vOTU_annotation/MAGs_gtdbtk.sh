@@ -13,10 +13,9 @@
 #SBATCH --partition=small
 ##SBATCH --mail-type=kim.kreuze@helsinki.fi
 
-cd /scratch/project_2006887/kimkreuz/edia_cohort/analysis/07_PHAGE_INDUCTION/VLP_induction_all_contigs_depth50/MAGs/
+cd /path/to/working/directory
 
-module load gtdbtk
-
+#Make a new GTDB-tk database for the medium-to-high quality MAGs generated from this cohort
 gtdbtk de_novo_wf --genome_dir med_bins/ --bacteria --outgroup_taxon p__Patescibacteria --out_dir $LOCAL_SCRATCH/med_MAGs_GTDB-tk_results_new/ --cpus 20 --force --extension fa
 
 mv $LOCAL_SCRATCH/med_MAGs_GTDB-tk_results_new/ $SLURM_SUBMIT_DIR

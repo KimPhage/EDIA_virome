@@ -13,7 +13,7 @@ rule all:
 
 rule geNomad_run:
 	input:
-		contigs=config["contig_path"]+"/{sample}_VLP_wQ33_contigs.new.3k.dedup.fa"
+		contigs=config["contig_path"]+"/{sample}/{sample}_clean_VLP_contigs.new.3k.dedup.fa"
 	params:
 		outdir=config["gNOutDir_path"],
 		gNdb=config["gNdb_path"],
@@ -21,8 +21,8 @@ rule geNomad_run:
 	singularity:
 		config["gNapp_path"]
 	output:
-		config["gNOutDir_path"]+"/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus_summary.tsv",
-		config["gNOutDir_path"]+"/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus.fna"
+		config["gNOutDir_path"]+"/{sample}/{sample}_clean_VLP_contigs.new.3k.dedup_summary/{sample}_clean_VLP_contigs.new.3k.dedup_virus_summary.tsv",
+		config["gNOutDir_path"]+"/{sample}/{sample}_clean_VLP_contigs.new.3k.dedup_summary/{sample}_clean_VLP_contigs.new.3k.dedup_virus.fna"
 	threads: 20
 	resources:
 		mem_mb=50000
@@ -33,7 +33,7 @@ rule geNomad_run:
 
 rule CheckV_run:
 	input:
-		contigs=config["gNOutDir_path"]+"/{sample}/{sample}_VLP_wQ33_contigs.new.3k.dedup_summary/{sample}_VLP_wQ33_contigs.new.3k.dedup_virus.fna"
+		contigs=config["gNOutDir_path"]+"/{sample}/{sample}_clean_VLP_contigs.new.3k.dedup_summary/{sample}_clean_VLP_contigs.new.3k.dedup_virus.fna"
 	params: 
 		outdir=config["CVOutDir_path"],
 		NGS=temp("{sample}")
