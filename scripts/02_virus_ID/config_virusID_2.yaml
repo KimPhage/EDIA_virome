@@ -1,0 +1,7 @@
+sample_file: /path/to/samples.txt # sample prefixes, one per line
+CheckVOut_dir: /path/to/CheckVOut_dir #path to directory containing output from first checkv run
+gNOutDir_path: /path/to/gNOutDir_path #path to directory containing output from second genomad run
+CheckVOut_dir_2: /path/to/CheckVOut_dir_2 #path to directory containing output from second checkv run
+gNdb_path: /genomad_db #path to genomad database within apptainer image
+GNomad_apptainer: /path/to/GNomad_apptainer #path to genomad apptainer image
+checkv_apptainer: /path/to/checkv_apptainer #path to checkv apptainer image

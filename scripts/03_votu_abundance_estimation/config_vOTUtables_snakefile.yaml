@@ -1,0 +1,5 @@
+sample_file: /path/to/samples.txt # sample prefixes, one per line
+reads_dir: /path/to/clean_reads #path to directory containing clean reads of all samples
+votucat_bt2_index: /path/to/votucat_bt2_index #path to bowtie2 index of vOTU catalogue of representative sequences
+vOTU_abundances_dir: /path/to/vOTU_abundances_dir #path to directory containing vOTU abundance tables
+extendApptainer: /path/to/VLP_contig_extension.sif

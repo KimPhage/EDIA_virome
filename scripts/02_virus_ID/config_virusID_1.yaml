@@ -1,0 +1,7 @@
+sample_file: /path/to/samples.txt # sample prefixes, one per line
+contig_path: /path/to/contig_path #path to directory containing assembled and COBRA extended contigs to check for viruses
+gNOutDir_path: /path/to/gNOutDir_path #path to directory containing output from GeNomad
+CVOutDir_path: /path/to/CVOutDir_path #path to directory containing output from CheckV
+gNdb_path: /genomad_db #path to genomad database within apptainer image
+gNapp_path: /path/to/gNapp_path #path to genomad apptainer image
+checkv_apptainer: /path/to/checkv_apptainer #path to checkv apptainer image

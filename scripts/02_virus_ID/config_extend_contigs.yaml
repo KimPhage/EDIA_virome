@@ -1,0 +1,5 @@
+clean_reads: /path/to/clean_reads # path to the directory containing the clean reads after QC and decontamination
+assemby_dir: /path/to/assembly_dir # path for assembly, mapping, and coverage outputs
+cobra_dir: /path/to/cobra_dir # path for final Cobra contigs
+extendApptainer: /path/to/VLP_contig_extension.sif #apptainer container with all the tools needed for assembly and contig extension
+sample_file: /path/to/samples.txt #prefixes of the fastq files, one per line

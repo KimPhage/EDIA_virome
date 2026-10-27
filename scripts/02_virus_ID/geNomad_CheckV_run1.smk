@@ -1,0 +1,55 @@
+configfile: "config_virusID_1.yaml"
+f1 = open(config["sample_file"],"r")
+SAMPLES = f1.read().splitlines()
+f1.close()
+rule all:
+	input:
+		expand([config["CVOutDir_path"]+"/{sample}/complete_genomes.tsv",
+		config["CVOutDir_path"]+"/{sample}/completeness.tsv",
+		config["CVOutDir_path"]+"/{sample}/quality_summary.tsv",
+		config["CVOutDir_path"]+"/{sample}/contamination.tsv",
+		config["CVOutDir_path"]+"/{sample}/proviruses.fna",
+		config["CVOutDir_path"]+"/{sample}/viruses.fna"],sample=SAMPLES)
+
+rule geNomad_run:
+	input:
+		contigs=config["contig_path"]+"/{sample}/{sample}_clean_VLP_contigs.new.3k.dedup.fa"
+	params:
+		outdir=config["gNOutDir_path"],
+		gNdb=config["gNdb_path"],
+		NGS=temp("{sample}")
+	singularity:
+		config["gNapp_path"]
+	output:
+		config["gNOutDir_path"]+"/{sample}/{sample}_clean_VLP_contigs.new.3k.dedup_summary/{sample}_clean_VLP_contigs.new.3k.dedup_virus_summary.tsv",
+		config["gNOutDir_path"]+"/{sample}/{sample}_clean_VLP_contigs.new.3k.dedup_summary/{sample}_clean_VLP_contigs.new.3k.dedup_virus.fna"
+	threads: 20
+	resources:
+		mem_mb=50000
+	shell:
+		"""
+		genomad end-to-end -t {threads} {input.contigs} {params.outdir}/{params.NGS} {params.gNdb}
+		"""
+
+rule CheckV_run:
+	input:
+		contigs=config["gNOutDir_path"]+"/{sample}/{sample}_clean_VLP_contigs.new.3k.dedup_summary/{sample}_clean_VLP_contigs.new.3k.dedup_virus.fna"
+	params: 
+		outdir=config["CVOutDir_path"],
+		NGS=temp("{sample}")
+	singularity: 
+		config["checkv_apptainer"] 
+	output:
+		config["CVOutDir_path"]+"/{sample}/complete_genomes.tsv",
+		config["CVOutDir_path"]+"/{sample}/completeness.tsv",
+		config["CVOutDir_path"]+"/{sample}/quality_summary.tsv",
+		config["CVOutDir_path"]+"/{sample}/contamination.tsv",
+		config["CVOutDir_path"]+"/{sample}/proviruses.fna",
+		config["CVOutDir_path"]+"/{sample}/viruses.fna"
+	threads: 20
+	resources:
+		mem_mb=50000
+	shell:
+		"""
+		checkv end_to_end {input.contigs} {params.outdir}/{params.NGS} -t {threads}
+		"""
